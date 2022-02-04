@@ -1,0 +1,17 @@
+/* tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Subway";
+  src: url("../fonts/SubwayTicker.woff2") format("woff2"),
+    url("../fonts/SubwayTicker.woff") format("woff"),
+    url("../fonts/SubwayTicker.ttf") format("truetype");
+}
+
+.subway-font {
+  font-family: "Subway", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
