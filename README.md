@@ -1,5 +1,7 @@
 # timetable
 
+This was a code submission for a role: The [published app is here](https://compassionate-fermat-ac3b74.netlify.app) on Netlify.
+
 ## Project setup
 ```
 npm install
