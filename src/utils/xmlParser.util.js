@@ -1,23 +1,34 @@
-import xml2js from "xml2js";
+import { XMLParser } from "fast-xml-parser";
 
 export function parseStationListXML(data) {
   let array = [];
-  return new Promise((resolve) => {
-    let parser = new xml2js.Parser({
-      trim: true,
-      explicitArray: false,
-    });
-    parser.parseString(data, function (err, result) {
-      let obj = result.ArrayOfObjStation;
-      for (let station of obj.objStation) {
-        array.push({
-          code: station.StationCode,
-          name: station.StationDesc,
-          alias: station.StationAlias,
-        });
+  return new Promise((resolve, reject) => {
+    try {
+      const parser = new XMLParser({
+        ignoreAttributes: false,
+        parseAttributeValue: true,
+        trimValues: true
+      });
+      
+      const result = parser.parse(data);
+      const obj = result.ArrayOfObjStation;
+      
+      if (obj && obj.objStation) {
+        const stations = Array.isArray(obj.objStation) ? obj.objStation : [obj.objStation];
+        
+        for (let station of stations) {
+          array.push({
+            code: station.StationCode,
+            name: station.StationDesc,
+            alias: station.StationAlias,
+          });
+        }
       }
+      
       resolve(array);
-    });
+    } catch (err) {
+      reject(err);
+    }
   });
 }
 
@@ -26,20 +37,22 @@ export function getStationDataByCodeXML(data, direction) {
 
   if (direction === "") direction = "Southbound";
 
-  return new Promise((resolve) => {
-    let parser = new xml2js.Parser({
-      trim: true,
-      explicitArray: false,
-    });
-    parser.parseString(data, function (err, result) {
-      let obj = result.ArrayOfObjStationData;
+  return new Promise((resolve, reject) => {
+    try {
+      const parser = new XMLParser({
+        ignoreAttributes: false,
+        parseAttributeValue: true,
+        trimValues: true
+      });
+      
+      const result = parser.parse(data);
+      const obj = result.ArrayOfObjStationData;
 
-      if (
-        obj.objStationData !== undefined &&
-        Array.isArray(obj.objStationData)
-      ) {
-        for (let station of obj.objStationData) {
-          if (station.Direction.toLowerCase() === direction.toLowerCase()) {
+      if (obj && obj.objStationData) {
+        const stationData = Array.isArray(obj.objStationData) ? obj.objStationData : [obj.objStationData];
+        
+        for (let station of stationData) {
+          if (station.Direction && station.Direction.toLowerCase() === direction.toLowerCase()) {
             array.push({
               code: station.Stationcode,
               name: station.Stationfullname,
@@ -50,27 +63,18 @@ export function getStationDataByCodeXML(data, direction) {
             });
           }
         }
+        
         // Sort Array by 'Due In' time
         array.sort(function (a, b) {
           return a.due - b.due;
-        });
-      } else if (
-        obj.objStationData !== undefined &&
-        !Array.isArray(obj.objStationData)
-      ) {
-        array.push({
-          code: obj.objStationData.Stationcode,
-          name: obj.objStationData.Stationfullname,
-          direction: obj.objStationData.Direction,
-          origin: obj.objStationData.Origin,
-          destination: obj.objStationData.Destination,
-          due: obj.objStationData.Duein,
         });
       }
 
       // return a max of 3 items
       const slicedArray = array.slice(0, 3);
       resolve(slicedArray);
-    });
+    } catch (err) {
+      reject(err);
+    }
   });
 }

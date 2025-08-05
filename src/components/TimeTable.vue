@@ -35,9 +35,11 @@
       <div class="w-full border-collapse rounded-lg border-4 p-4 border-yellow-200 subway-font bg-gray-700 shadow-xl">
         <table v-if="timetable?.length > 0" class="text-yellow-200 text-xl md:text-3xl  leading-9 w-full">
           <thead>
-            <td>&nbsp;</td>
-            <td class="p-3 text-xl">Destination</td>
-            <td class="p-3 text-xl text-right">Due</td>
+            <tr>
+              <th>&nbsp;</th>
+              <th class="p-3 text-xl">Destination</th>
+              <th class="p-3 text-xl text-right">Due</th>
+            </tr>
           </thead>
           <tr v-for="(item, index) in timetable" :key="index">
             <td class="p-3">{{index+1}}</td>
@@ -54,6 +56,7 @@
 
 <script>
 
+import axios from 'axios';
 import { parseStationListXML, getStationDataByCodeXML } from '@/utils/xmlParser.util';
 import { setCookie, getCookie } from '@/utils/cookie.util';
 
@@ -115,7 +118,7 @@ export default {
       else return false;
     },
     loadStations(url){
-      this.axios.get(url)
+      axios.get(url)
       .then(response => {
         parseStationListXML(response.data)
         .then(data => { 
@@ -128,7 +131,7 @@ export default {
     },
     loadTimeTableData(url, stationCode, direction, mins){
       url = `${url}?NumMins=${mins}&StationCode=${stationCode}`; 
-      this.axios.get(url)
+      axios.get(url)
       .then(response => {
         getStationDataByCodeXML(response.data, direction)
         .then(data => { 
