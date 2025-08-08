@@ -64,8 +64,8 @@ export default {
   name: 'TimeTable',
   data () {
     return {
-      stationListUrl: 'https://justcors.com/l_1ve8kxkto7/api.irishrail.ie/realtime/realtime.asmx/getAllStationsXML', 
-      timetableDetailUrl: 'https://justcors.com/l_1ve8kxkto7/api.irishrail.ie/realtime/realtime.asmx/getStationDataByCodeXML_WithNumMins', 
+      stationListUrl: '/api/realtime/realtime.asmx/getAllStationsXML', 
+      timetableDetailUrl: '/api/realtime/realtime.asmx/getStationDataByCodeXML_WithNumMins', 
       cookieName: 'favStation',
       cookieStationCode: '',
       stations: null,

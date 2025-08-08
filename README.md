@@ -1,7 +1,5 @@
 # timetable
 
-This was a code submission for a role: The [published app is here](https://compassionate-fermat-ac3b74.netlify.app) on Netlify.
-
 ## Project setup
 ```
 npm install
@@ -9,7 +7,7 @@ npm install
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm run dev
 ```
 
 ### Compiles and minifies for production
