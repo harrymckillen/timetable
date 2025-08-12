@@ -4,27 +4,7 @@
 #     RewriteRule ^api/(.*)$ https://api.irishrail.ie/realtime/realtime.asmx/$1 [P,L]
 # </IfModule>
 
-# Check if mod_rewrite is available
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    # Your rewrite rules here
-</IfModule>
-
-# Check if mod_headers is available
-<IfModule mod_headers.c>
-    # Your header rules here
-</IfModule>
-
-# Check if mod_proxy is available
-<IfModule mod_proxy.c>
-    # Your proxy rules here
-</IfModule>
-```
-
 ## Create a test page to check modules:
-
-````apache
-# filepath: /home/harry/src/timetable/public/.htaccess
 
 # Test if modules work by setting headers
 <IfModule mod_headers.c>
