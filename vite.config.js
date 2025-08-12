@@ -19,10 +19,21 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://justcors.com/l_1ve8kxkto7/api.irishrail.ie',
+        target: 'https://api.irishrail.ie',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
-        secure: true
+        secure: true,
+        configure: (proxy, options) => {
+          proxy.on('error', (err, req, res) => {
+            console.log('proxy error', err);
+          });
+          proxy.on('proxyReq', (proxyReq, req, res) => {
+            console.log('Sending Request to the Target:', req.method, req.url);
+          });
+          proxy.on('proxyRes', (proxyRes, req, res) => {
+            console.log('Received Response from the Target:', proxyRes.statusCode, req.url);
+          });
+        }
       }
     }
   }
